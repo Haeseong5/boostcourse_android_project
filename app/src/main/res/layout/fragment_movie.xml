@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/fragment_movie_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/image1"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fragment_movie_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. "
+            android:textSize="18dp"
+            android:textColor="@color/colorWhtie" />
+
+        <TextView
+            android:id="@+id/fragment_movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="영화이름"
+            android:textSize="18dp"
+            android:textColor="@color/colorWhtie" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_slider1"
+        android:layout_marginVertical="10dp">
+    </ImageView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhtie"
+            android:text="예매율"/>
+        <TextView
+            android:id="@+id/fragment_movie_reservation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhtie"
+            android:text=" 24.5%"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhtie"
+            android:text=" | "/>
+        <TextView
+            android:id="@+id/fragment_movie_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhtie"
+            android:text="15세 관람가"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhtie"
+            android:text=" | "/>
+        <TextView
+            android:id="@+id/fragment_movie_dday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhtie"
+            android:text="d-1"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/fragment_movie_detail_button"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhtie"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        android:textSize="18dp"
+        android:text="상세보기"/>
+
+</LinearLayout>

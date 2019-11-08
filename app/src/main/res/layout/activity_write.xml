@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhtie"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="10dp"
+    >
+    <LinearLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/allview_toolbar"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/write_movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="영화제목"
+            android:textSize="30dp"/>
+        <ImageView
+            android:id="@+id/write_grade_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_15"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray"
+        android:layout_below="@+id/layout_title">
+    </LinearLayout>
+    <RatingBar
+        android:id="@+id/write_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:isIndicator="false"
+        android:layout_marginTop="69dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
+        android:textSize="20dp"
+        android:text="평점을 입력해 주세요" />
+
+    <EditText
+        android:id="@+id/write_review"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="188dp"
+        android:paddingHorizontal="10dp"
+        android:background="@drawable/edittext_style"
+        android:hint="영화평을 입력해주세요." />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="66dp"
+        >
+        <Button
+            android:id="@+id/write_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape2"
+            android:layout_marginRight="5dp"
+            android:text="작성하기" />
+        <Button
+            android:id="@+id/write_finish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape2"
+            android:layout_marginLeft="5dp"
+            android:text="취소하기"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
