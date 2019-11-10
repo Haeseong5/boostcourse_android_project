@@ -1,22 +1,19 @@
 package com.example.a82102.movieprojectfinal.Activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.Nullable;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -40,9 +37,6 @@ import com.example.a82102.movieprojectfinal.Helper.AppHelper;
 import com.example.a82102.movieprojectfinal.R;
 import com.example.a82102.movieprojectfinal.Adapter.ReviewAdapter;
 import com.example.a82102.movieprojectfinal.Item.ReviewItem;
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -50,21 +44,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.SocialObject;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.helper.log.Logger;
 
 public class DetailActivity extends AppCompatActivity {
     public static final int REVIEW_WRITE_CODE = 100;
     public static final int REVIEW_LIST_CODE = 200;
-    public static String profileURL = "https://st3.depositphotos.com/1767687/17621/v/1600/depositphotos_176214034-stock-illustration-default-avatar-profile-icon.jpg";
+    public static String profileURL = "https://blog.naver.com/g_sftdvp/221577900910";
     String movieURL = "http://boostcourse-appapi.connect.or.kr:10000/movie/readMovie";
     String commentURL = "http://boostcourse-appapi.connect.or.kr:10000/movie/readCommentList";
     ScrollView scrollView;
@@ -91,8 +87,8 @@ public class DetailActivity extends AppCompatActivity {
     ListView listView_review;
     Button viewAll;//모두보기
     Button write;
-    ImageButton kakao;
-    LoginButton facebook_login;
+    ImageView ivFacebook;
+    ImageView ivKakao;
     LikeData likeData;
     int position;
     int updateLikeCount;
@@ -130,8 +126,9 @@ public class DetailActivity extends AppCompatActivity {
         act= findViewById(R.id.act);
         viewAll= findViewById(R.id.viewAll);
         write= findViewById(R.id.write);
-        kakao= findViewById(R.id.kakao);
         scrollView=findViewById(R.id.scrollview);
+        ivFacebook = findViewById(R.id.iv_facebook);
+        ivKakao = findViewById(R.id.iv_kakao);
         listView_review = findViewById(R.id.listview_review);
         ratingBar.setIsIndicator(true); //레이팅바의 별을 변경 불가능하게 만든다.
         initLayout();
@@ -141,7 +138,9 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent!=null)
         {
+
             position = intent.getExtras().getInt("position")+1;
+
             Log.d("getIntent position",Integer.toString(position));
         }
         if(AppHelper.requestQueue == null)
@@ -232,6 +231,52 @@ public class DetailActivity extends AppCompatActivity {
 
     protected void setButton()
     {
+        ivKakao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FeedTemplate params = FeedTemplate
+                        .newBuilder(ContentObject.newBuilder("디저트 사진",
+                                "http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+                                LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                        .setMobileWebUrl("https://developers.kakao.com").build())
+                                .setDescrption("아메리카노, 빵, 케익")
+                                .build())
+                        .setSocial(SocialObject.newBuilder().setLikeCount(10).setCommentCount(20)
+                                .setSharedCount(30).setViewCount(40).build())
+                        .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("'https://developers.kakao.com").setMobileWebUrl("'https://developers.kakao.com").build()))
+                        .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                                .setWebUrl("'https://developers.kakao.com")
+                                .setMobileWebUrl("'https://developers.kakao.com")
+                                .setAndroidExecutionParams("key1=value1")
+                                .setIosExecutionParams("key1=value1")
+                                .build()))
+                        .build();
+
+                Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+                serverCallbackArgs.put("user_id", "${current_user_id}");
+                serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+                KakaoLinkService.getInstance().sendDefault(getApplicationContext(), params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        Logger.e(errorResult.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(KakaoLinkResponse result) {
+                        // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
+                    }
+                });
+
+            }
+        });
+        ivFacebook.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+
+              }
+          }
+        );
         write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

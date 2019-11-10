@@ -2,8 +2,8 @@ package com.example.a82102.movieprojectfinal.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -151,7 +151,7 @@ public class WriteActivity extends AppCompatActivity{
             {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("review",etReview.getText().toString());
-                resultIntent.putExtra("writer","로그인 안함");
+                resultIntent.putExtra("writer","비회원");
                 resultIntent.putExtra("rating",ratingBar.getRating());
                 resultIntent.putExtra("time",getDate());
                 setResult(RESULT_OK,resultIntent);

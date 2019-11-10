@@ -4,4 +4,7 @@
     <string name="fb_login_protocol_scheme">fb337391573771831</string>
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
+    <string name="kakao_app_key">81e1cbff80e01236f986a125e4c50e0f</string>
+    <string name="kakao_scheme">kakao81e1cbff80e01236f986a125e4c50e0f</string>
+    <string name="kakaolink_host">kakaolink</string>
 </resources>

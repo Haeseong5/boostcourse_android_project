@@ -2,8 +2,8 @@ package com.example.a82102.movieprojectfinal.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,8 +40,7 @@ import static com.example.a82102.movieprojectfinal.Helper.NetworkHelper.TYPE_MOB
 import static com.example.a82102.movieprojectfinal.Helper.NetworkHelper.TYPE_NOT_CONNECTED;
 import static com.example.a82102.movieprojectfinal.Helper.NetworkHelper.TYPE_WIFI;
 
-public class Fragment1 extends android.support.v4.app.Fragment {
-    ArrayList<MovieItem> movieList = new ArrayList<>();
+public class Fragment1 extends Fragment {
     ImageView ivMoviePoster;
     TextView tvMovieTitle;
     TextView tvMovieNumber;
@@ -106,17 +107,18 @@ public class Fragment1 extends android.support.v4.app.Fragment {
     }
 
 
-    protected void movieListRequest(final int type)
+    private void movieListRequest(final int type)
     {
         //53866026ec1951a1f4625cf579166162 key
         String url = "http://boostcourse-appapi.connect.or.kr:10000/movie/readMovieList";
-        StringRequest request = new StringRequest(
+        final StringRequest request = new StringRequest(
                 Request.Method.POST, //GET방식으로 요청
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) { //응답객체를 받아온다
                         processResponse(response);
+                        Log.d("request: ", "request");
                     }
                 },
                 new Response.ErrorListener() {
@@ -138,7 +140,7 @@ public class Fragment1 extends android.support.v4.app.Fragment {
         request.setShouldCache(false);
         AppHelper.requestQueue.add(request);
     }//end movieListRequest.
-    protected void processResponse(String response) //응답결과를 처리하는 메소드
+    private void processResponse(String response) //응답결과를 처리하는 메소드
     {
         Gson gson = new Gson();
         jMovieResult movieResult = gson.fromJson(response, jMovieResult.class);
@@ -147,7 +149,7 @@ public class Fragment1 extends android.support.v4.app.Fragment {
             ArrayList<jMovie> result = movieResult.result; //movieResult클래스에 잇는 리스트를 대입시킨다.
             Log.d("message: ", movieResult.message);
             jMovie movie = result.get(position);
-            checkNetworkStatus(movie.reservation_grade,movie.title,movie.reservation_rate,movie.grade,movie.image);
+//            checkNetworkStatus(movie.reservation_grade,movie.title,movie.reservation_rate,movie.grade,movie.image);
             String grade = Integer.toString(movie.grade)+"세 관람가";
             String reservation =" "+Float.toString(movie.reservation_rate)+"%";
             Glide.with(getActivity()).load(movie.image).into(ivMoviePoster);
@@ -156,7 +158,7 @@ public class Fragment1 extends android.support.v4.app.Fragment {
             tvReservation.setText(reservation);
             tvMovieNumber.setText(Integer.toString(movie.reservation_grade)+". ");
         }else{
-            checkNetworkStatus(0,null,0,0,null);
+//            checkNetworkStatus(0,null,0,0,null);
         }
     }
 

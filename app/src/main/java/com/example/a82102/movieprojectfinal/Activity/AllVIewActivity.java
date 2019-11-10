@@ -3,8 +3,8 @@ package com.example.a82102.movieprojectfinal.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -87,7 +87,7 @@ public class AllVIewActivity extends AppCompatActivity{
 
         allViewAdapter = new AllViewAdapter(this,reviewList);
         commentListRequest(id, url);
-        allViewListView.setAdapter(allViewAdapter);
+//        allViewListView.setAdapter(allViewAdapter);
 
         btWrite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +132,7 @@ public class AllVIewActivity extends AppCompatActivity{
                 Map<String,String> params = new HashMap<String,String>();
                 String movieId = Integer.toString(id);
                 params.put("id", movieId);
-                params.put("limit","5"); //최근10개 조회
+                params.put("limit","8"); //최근10개 조회
                 return params;
             }
         };
@@ -162,9 +162,11 @@ public class AllVIewActivity extends AppCompatActivity{
                     timeStamp = Integer.toString(Integer.parseInt(commentData.timestamp));
                     recommendNumber = Integer.toString(commentData.recommend);
                     float rating = commentData.rating/2;
-                    reviewList.add(new ReviewItem(commentData.writer_image,commentData.writer,timeStamp,commentData.contents,recommendNumber,rating));
+                    reviewList.add(new ReviewItem(commentData.writer_image, commentData.writer,timeStamp,commentData.contents,recommendNumber,rating));
                 }
                 Log.d("reviewList Size",Integer.toString(commentList.size()));
+                allViewListView.setAdapter(allViewAdapter);
+
             }
         }
     }
@@ -179,19 +181,21 @@ public class AllVIewActivity extends AppCompatActivity{
             switch (requestCode)
             {
                 case REVIEW_WRITE_CODE:  // 리뷰 작성 후 돌아왔을 때 실행
+//                    commentListRequest(id, url);
                     String reviewContent = data.getStringExtra("review");
                     String time = data.getStringExtra("time");
                     String writer = data.getStringExtra("writer");
                     float rating = data.getFloatExtra("rating",0);
-                    reviewList.add(new ReviewItem(profileURL,writer,time,reviewContent,"1",rating));
+                    reviewList.add(new ReviewItem(profileURL, writer,time,reviewContent,"1",rating));
                     Log.d("작성 후 돌아왔을 때 all", time);
                     Log.d("작성 후 돌아왔을 때 all", writer);
-
-                    allViewAdapter.notifyDataSetChanged();
-
+//                    allViewAdapter.notifyDataSetChanged();
                     //리스트뷰에 추가
             }
+
         }
+        allViewAdapter.notifyDataSetChanged();
+
     }
 
     @Override

@@ -1,22 +1,24 @@
 package com.example.a82102.movieprojectfinal.Activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
+
+
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.a82102.movieprojectfinal.Fragment.Fragment1;
-import com.example.a82102.movieprojectfinal.Fragment.Fragment2;
-import com.example.a82102.movieprojectfinal.Fragment.Fragment3;
-import com.example.a82102.movieprojectfinal.Fragment.Fragment4;
-import com.example.a82102.movieprojectfinal.Fragment.Fragment5;
 import com.example.a82102.movieprojectfinal.Helper.NetworkHelper;
 import com.example.a82102.movieprojectfinal.R;
+
 
 import java.util.ArrayList;
 //volley 라이브러리를 이용하여
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         networkStatusCheck();
         setToolbar();
         viewPager = findViewById(R.id.viewPager);
@@ -40,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
         Fragment1 fragment4 = Fragment1.newInstance(3);
         Fragment1 fragment5 = Fragment1.newInstance(4);
 
-//        Fragment1 fragment2 = new Fragment1();
-//        Fragment1 fragment3 = new Fragment1();
-//        Fragment1 fragment4 = new Fragment1();
-//        Fragment1 fragment5 = new Fragment1();
         pagerAdapter.addFragment(fragment1);
         pagerAdapter.addFragment(fragment2);
         pagerAdapter.addFragment(fragment3);
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         NetworkHelper.networkStatus = NetworkHelper.getConnectivityStatus(getApplicationContext());
         if(NetworkHelper.networkStatus == NetworkHelper.TYPE_MOBILE)
         {
-            Toast.makeText(getApplicationContext(),"무선랜 연결됨. CODE:"+Integer.toString(NetworkHelper.networkStatus),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"데이터 연결됨. CODE:"+Integer.toString(NetworkHelper.networkStatus),Toast.LENGTH_SHORT).show();
         }else if(NetworkHelper.networkStatus == NetworkHelper.TYPE_WIFI)
         {
             Toast.makeText(getApplicationContext(),"와이파이 연결됨. CODE:"+Integer.toString(NetworkHelper.networkStatus),Toast.LENGTH_SHORT).show();
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     {
         ArrayList<Fragment> fragments = new ArrayList<>();
 
-        public PagerAdapter(android.support.v4.app.FragmentManager fm)
+        public PagerAdapter(FragmentManager fm)
         {
             super(fm);
         }
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             fragments.add(fragment);
         }
         @Override
-        public android.support.v4.app.Fragment getItem(int position)
+        public Fragment getItem(int position)
         {
             return fragments.get(position);
         }

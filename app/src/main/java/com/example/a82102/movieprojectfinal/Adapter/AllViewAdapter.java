@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import static com.example.a82102.movieprojectfinal.Activity.DetailActivity.profileURL;
 
+
 public class AllViewAdapter extends BaseAdapter {
     Context context;
     int layout;
